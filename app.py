@@ -20,5 +20,13 @@ def predict_api():
     print(output[0])
     return jsonify(output[0])
 
+@app.route('/predict', methods=['POST'])
+def predict():
+    input=[float(x) for x in request.form.values()]
+    print(input)
+    input_array = np.array(input).reshape(1, -1)
+    output=regmodel.predict(input_array)[0]
+    return render_template("home.html",prediction_test="The predicted mpg value  is {}".format(output))
+
 if __name__=="__main__":
     app.run(debug=True)
